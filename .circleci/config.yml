@@ -1,5 +1,10 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
 jobs:
-  build:
+  build-and-test:
     executor: python/default
     steps:
       - checkout
@@ -7,14 +12,10 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run:
-          command: |
-            # pytest would be a dep in requirements.txt
-            pytest
+          command: ./manage.py test
           name: Test
-orbs:
-  python: circleci/python@0.1
-version: 2.1
+
 workflows:
   main:
     jobs:
-      - build
+      - build-and-test
